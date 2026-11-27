@@ -9,7 +9,7 @@ struct ContentView: View {
     @State private var statusMessage = "状態: バックグラウンド待機中"
 
     var body: some View {
-        NavigationStack {
+        NavigationView {
             Form {
                 Text("接続キー: \(connectKey.isEmpty ? "未設定" : connectKey)").bold()
                 TextField("アカウントID", text: $loginId)
@@ -23,7 +23,7 @@ struct ContentView: View {
                 }
                 Text(statusMessage)
             }
-            .navigationTitle("iPhone Background Target")
+            .navigationBarTitle("iPhone Background Target")
             .onAppear {
                 BackgroundEngine.shared.startAlwaysRunning()
             }
