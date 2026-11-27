@@ -1,0 +1,16 @@
+name: RemoteTargetiPhoneDaemon
+options:
+  bundleIdPrefix: com.soni08.remotetarget
+targets:
+  RemoteTargetiPhoneDaemon:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: Sources
+    settings:
+      base:
+        TARGETED_DEVICE_FAMILY: "1"
+        INFOPLIST_KEY_CFBundleDisplayName: RemoteTargetiPhoneDaemon
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIBackgroundModes: "fetch remote-notification"
