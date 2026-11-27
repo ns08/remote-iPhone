@@ -1,0 +1,30 @@
+name: Build iPhone Background Target
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build iPhone target
+        run: |
+          xcodebuild -scheme RemoteTargetiPhoneDaemon \
+            -destination 'generic/platform=iOS' \
+            -configuration Release \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            build
+      - name: Package iPhone ZIP
+        run: |
+          mkdir -p out_iphone
+          find ~/Library/Developer/Xcode/DerivedData -name "RemoteTargetiPhoneDaemon.app" -exec cp -R {} out_iphone/ \;
+          ditto -c -k --sequesterRsrc --keepParent out_iphone RemoteTargetiPhoneDaemon-iOS.zip
+      - name: Upload iPhone artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: remote-target-iphone-daemon
+          path: RemoteTargetiPhoneDaemon-iOS.zip
